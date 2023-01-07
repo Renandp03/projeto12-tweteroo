@@ -8,7 +8,8 @@ app.use(cors())
 
 const PORT = 5000
 
-let localUserAvatar;
+let localUser;
+let lastTweets;
 
 const users = [
     {
@@ -31,7 +32,54 @@ const tweets  = [
         username: "bobesponja",
         avatar:"https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info",
         tweet: "eu amo o hub"
-    }
+    },
+     {
+        username: "bobesponja",
+        avatar:"https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info",
+        tweet: "eu amo o hub"
+    },
+    {
+        username: "bobesponja",
+        avatar:"https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info",
+        tweet: "eu amo o hub"
+    },
+    {
+        username: "bobesponja",
+        avatar:"https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info",
+        tweet: "eu amo o hub"
+    },
+    {
+        username: "bobesponja",
+        avatar:"https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info",
+        tweet: "eu amo o hub"
+    },
+    {
+        username: "bobesponja",
+        avatar:"https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info",
+        tweet: "eu amo o hub"
+    },
+    {
+        username: "bobesponja",
+        avatar:"https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info",
+        tweet: "eu amo o hub"
+    },
+    {
+        username: "Superman",
+        avatar:"https://uploads.jovemnerd.com.br/wp-content/uploads/2022/12/superman_reboot_superman_adeus_henry_cavill__295h2w243-1210x544.jpg",
+        tweet: "To voando alto"
+    },
+    {
+        username: "Mulher-Maravilha",
+        avatar:"https://upload.wikimedia.org/wikipedia/pt/thumb/9/9f/Mulher_Maravilha_2009.jpg/250px-Mulher_Maravilha_2009.jpg",
+        tweet: "Sextoooou"
+    },
+    {
+        username: "Flash",
+        avatar:"https://tangerina.uol.com.br/_next/image?url=https%3A%2F%2Ffeira.tangerina.news%2Fwp-content%2Fuploads%2F2022%2F06%2Fezra-miller-liga-da-justica-foto-divulgacao-warner.jpg&w=680&q=75",
+        tweet: "Atrasado para o trabalho de novo..."
+    },
+    
+    
     
 ]
 
@@ -45,37 +93,32 @@ app.get("/sign-up",(req,res)=>{
 
 
 app.post("/sign-up",(req,res)=>{
-    const user = req.body
+    
+    localUser = req.body
 
-    localUserAvatar = user.avatar
-
-    users.push(user)
+    users.push(localUser)
     res.send(users)
 })
 
 
 app.post("/tweets",(req,res)=>{
-   const newTweet = {... req.body, avatar: localUserAvatar}
+
+    if(!users.includes(localUser)){return res.status(401).send("UNAUTHORIZED")}
+
+    
+   const newTweet = {... req.body, avatar: localUser.avatar}
    tweets.push(newTweet)
-   res.send(newTweet)
+   res.send("ok")
 })
 
 
 app.get("/tweets",(req,res)=>{
 
-    let lastTweets = []
+    lastTweets = [... tweets]
+    lastTweets.reverse().slice(0,[9])
 
-    if(tweets.length <= 10){
-        
-        return res.send(tweets)
-    }
-
-    
-    
-    for(i = tweets.length - 1; i > tweets.length - 11; i--){
-        lastTweets.push(tweets[i])
-    }
     res.send(lastTweets)
+    
 })
 
 
